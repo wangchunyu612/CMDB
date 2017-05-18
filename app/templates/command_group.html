@@ -1,0 +1,160 @@
+{% include 'base.html' %}
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+              <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                  <div class="navbar-header">
+                      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                      <form role="search" class="navbar-form-custom" method="get" action="">
+                      </form>
+                  </div>
+                  {% include 'base1.html' %}
+              </nav>
+            </div>
+
+<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default" style='margin-top:20px;'>
+<!--                         <div class="panel-heading">
+                           idc信息
+                            <button class='btn btn-default' id='addIdc'>添加idc</button>
+                        </div> -->
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+
+<div style="width:30%">
+<form class="form-horizontal"  method="post" action="/command_group_result/">
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">组</label>
+    <div class="col-sm-10">
+   	<select class="form-control" id='g_name'>
+      {%for all_group in all_group %}
+      <option>{{all_group.name}}</option>
+      {%endfor%}
+     </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">命令</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='Command'>
+    </div>
+
+  </div>
+    <!--
+      <div class="modal-footer" style="width:50%">
+        <button type="button" class="btn btn-primary"  onclick="command_result(this);" >确认</button>
+   </div>
+    -->
+      <div style="width:150%">
+ <button type="button" class="btn btn-primary"  onclick="command_group_result(this);" >确认</button>
+<span class="btn btn-primary" ><a href="/command_group/check_result/" style="color:white"  role="button">查看结果</a></span>
+
+
+</br></br>
+	  <!--
+          <textarea class="form-control" id="result" style="margin: 0px -54.5px 0px 0px; height: 450px; width: 600px;"></textarea>
+       -->
+
+   <textarea class="form-control" id="result" style=" background-color:transparent; margin: 0px 7.140625px 0px 0px; width: 545px; height: 125px;" readonly="readonly"></textarea>
+</div>
+
+
+
+
+	<div>
+  </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+{% include 'base2.html' %}
+                </div>
+</div>
+
+<div class="modal fade" id='tipModal'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    <!-- jQuery -->
+
+    <script>
+    $('#tipModal').on('hide.bs.modal',function(){
+        location.reload()
+    })
+    </script>
+
+<script>
+	$('#addmacBtn').click(function(){
+		$('#addmacModal').modal('show')
+	})
+	    	$(document).on('click','.deletemac',function(){
+	    		var id = $(this).data('id')
+	    		$.get('/deletemac?id='+id,function(res){
+	    			if (res == 'ok') {
+	    				location.reload()
+	    			};
+	    		})
+	    	})
+	$('#confirmAddmacBtn').click(function(){
+		var is_val = true
+		$('#addmacForm').find('input').each(function(i,v){
+			if (!$(v).val()) {
+				$(v).after('<span class="text-danger">必填字段</span>')
+				is_val = false
+			}else{
+				$(v).next().remove()
+			}
+		})
+		if (is_val) {
+
+		$.get('/addmac',$('#addmacForm').serialize(),function(data){
+			if (data=='ok') {
+				$('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
+			};
+		})
+		};
+
+	})
+
+</script>
+
+<script type="text/javascript">
+function command_group_result(ele){
+   if($('#g_name').val()&&$('#Command').val()){
+     var id=$(ele).attr("id");
+  $.ajax({
+    url:"/command_group_result",
+    data:{g_name:$('#g_name').val(),command:$('#Command').val()},
+    success:function(data){
+        if (data) {
+          var obj = JSON.parse(data);
+	    {
+	     console.log(obj);
+          $('#result').html("\n" + "成功执行主机:" +  obj.success  + "\n\r" +"执行失败主机:" + obj.fail);
+	 };
+      }
+        }
+
+});
+}}
+</script>

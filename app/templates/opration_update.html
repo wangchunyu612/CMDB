@@ -1,0 +1,183 @@
+{% include 'base.html' %}
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+              <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                  <div class="navbar-header">
+                      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                      <form role="search" class="navbar-form-custom" method="get" action="">
+                      </form>
+                  </div>
+                  {% include 'base1.html' %}
+              </nav>
+            </div>
+
+<form class="form-inline"  method="post" action="/oprationfile_result" id="A">
+  <div class="form-group">
+    <label for="exampleInputName2">主机名</label>
+    <select class="form-control" name="hostInput" id="hostname">
+      <option>{{ hostname }}</options>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail2">文件路径</label>
+    <input type="text" id="path" class="form-control" name="filepath" value={{ path }} >
+  </div>
+  <button type="submit" class="btn btn-primary">列出文件</button>
+</form>
+<div style="color:#F00" text-align:'center'>
+ {{ mes }}
+</div>
+<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default" style='margin-top:20px;'>
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                	    <th>文件名</th>
+                                      <th>修改时间</th>
+                                      <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+         {%for k,v in files.items%}
+<tr>
+  <td class="filename"> {{ k }}</td>
+  <td id="filetime"> {{v}} </td>
+  <td>
+  <span class="btn btn-xs btn-primary" data-id='6'>
+    <button type="button"  class="btn btn-xs btn-primary" onclick="check_file(this);">
+        <input type="hidden" value={{k}} class='filename'>查看</button>
+</span>
+<span class="btn btn-xs btn-primary" data-id='6'>
+ <button type="button" class="btn btn-xs btn-primary" onclick="update_file(this);" >
+     <input type="hidden" value={{k}} class='filename'>编辑</button>
+</span>
+	</td>
+</tr>
+  {%endfor%}
+
+                               </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+              </div>
+              {% include 'base2.html' %}
+  </div>
+</div>
+
+<div class="modal fade" id='checkfile'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="hostname">
+        </h4>
+      <span class="filepath">
+      </span>
+      </div>
+      <div class="content">
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id='updatefile'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form class="m-t" role="form" method="post" action="/oprationfile_update/">
+          <div class="form-group">
+              <input type="text" name="hostname" class="hostname" placeholder="hostname">
+          </div>
+          <div class="form-group">
+              <input type="text" name="filepath" class= "filepath" placeholder="filepath">
+          </div>
+          <textarea name="content" cols="80%" rows="30%" class="content"></textarea>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+      </form>
+  </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id='updatefile_result'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"  style="color:#00A600" >修改成功</h3>
+      </div>
+      <div class="modal-body" style="color:#ff7575" >
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+        <button type="button" class="btn btn-primary" id="reboot" ><a href="/service/?h={{ hostname }}&cmd=1">是</a></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<body onload="result()">
+
+<script type="text/javascript">
+function check_file(ele){
+         $.ajax({
+             url:"/oprationfile_check",
+             data:{hostname:$('#hostname').val(),filename:$(ele).find('.filename').val(),path:$('#path').val()},
+             success:function(data){
+             if (data) {
+               var obj = JSON.parse(data);
+               content=obj.content.replace(/\n/g,'</br>');
+               $('#checkfile').find('.hostname').html("主机:" + obj.hostname);
+               $('#checkfile').find('.filepath').html("路径:" + obj.filepath);
+               $('#checkfile').find('.content').html(content);
+               $('#checkfile').modal('show');
+              }
+	     }
+	});
+     }
+function update_file(ele){
+  $.ajax({
+      url:"/oprationfile_check",
+      data:{hostname:$('#hostname').val(),filename:$(ele).find('.filename').val(),path:$('#path').val()},
+      success:function(data){
+      if (data) {
+        var obj = JSON.parse(data);
+        content=obj.content.replace(/\n/g,'</br>');
+        $('#updatefile').find('.hostname').val(obj.hostname);
+        $('#updatefile').find('.filepath').val(obj.filepath);
+        $('#updatefile').find('.content').html(obj.content);
+        $('#updatefile').modal('show');
+       }
+}
+});
+}
+function result(){
+  $('#updatefile_result').find('.modal-body').html("是否重启后台应用?").end().modal('show');
+}
+$(function(){
+    $("#reboot").click(function(){
+       alert('重启需要等待一段时间，请不要点击其他页面!');
+     }
+   )
+ });
+
+
+</script>

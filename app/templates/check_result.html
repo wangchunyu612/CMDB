@@ -1,0 +1,195 @@
+{% include 'base.html' %}
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+              <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                  <div class="navbar-header">
+                      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                      <form role="search" class="navbar-form-custom" method="get" action="">
+                      </form>
+                  </div>
+                  {% include 'base1.html' %}
+              </nav>
+            </div>
+
+<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default" style='margin-top:20px;'>
+<!--                         <div class="panel-heading">
+                           idc信息
+                            <button class='btn btn-default' id='addIdc'>添加idc</button>
+                        </div> -->
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>主机名</th>
+                                            <th>执行命令</th>
+                                            <th>返回状态1表示成功</th>
+                                            <th>输出结果</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+           {%for result in all_result %}
+<tr>
+	<td>{{result.host}}</td>
+	<td>{{result.jid}}</td>
+	<td>{{result.success}}</td>
+	<td>{{result.result}}</td>
+</tr>
+          {%endfor%}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+<div class="modal fade" id='addIdcModal'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+                        <!-- <h1 class="page-header">Blank</h1> -->
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+
+            {% include 'base2.html' %}
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+<div class="modal fade" id='tipModal'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    <script>
+    $('#tipModal').on('hide.bs.modal',function(){
+        location.reload()
+    })
+    $(function(){
+           var oLanguage={
+        "oAria": {
+            "sSortAscending": ": 升序排列",
+            "sSortDescending": ": 降序排列"
+        },
+        "oPaginate": {
+            "sFirst": "首页",
+            "sLast": "末页",
+            "sNext": "下页",
+            "sPrevious": "上页"
+        },
+        "sEmptyTable": "没有相关记录",
+        "sInfo": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+        "sInfoEmpty": "第 0 到 0 条记录，共 0 条",
+        "sInfoFiltered": "(从 _MAX_ 条记录中检索)",
+        "sInfoPostFix": "",
+        "sDecimal": "",
+        "sThousands": ",",
+        "sLengthMenu": "返回结果: _MENU_",
+        "sLoadingRecords": "正在载入...",
+        "sProcessing": "正在载入...",
+        "sSearch": "搜索:",
+        "sSearchPlaceholder": "",
+        "sUrl": "",
+        "sZeroRecords": "没有相关记录"
+    }
+    $.fn.dataTable.defaults.oLanguage=oLanguage;
+    $('#dataTables-example').DataTable({
+            responsive: true,
+            // iDisplayLength:3
+    });
+    });
+    var pro = 10
+    var timer = null
+    timer = setInterval(function(){
+        if (pro<100) {
+
+        pro = pro*1.5
+
+        $('#progress-reboot').css('width',pro+'%')
+        }else{
+            clearInterval(timer)
+            $('#progress-reboot').addClass('hide')
+        }
+
+    },100)
+    var is_right = true
+    setInterval(function(){
+        var t = $('#alertText')
+        var left = parseInt(t.css('left'))
+        var val
+        if (is_right) {
+            if (left<300) {
+                val = left+1
+                t.css('left',val)
+            }else{
+                is_right = false
+            }
+        }else{
+            if (left>250) {
+                val = left-1
+                t.css('left',val)
+            }else{
+                is_right = true
+            }
+
+        }
+        // if (left<300&&left>250) {
+        //     t.css('left',left+1)
+        // };
+    },50)
+    </script>
+
+<script type="text/javascript">
+
+function cmdrun(ele){
+   if($('#nameInput').val()&&$('#msgInput').val()){
+     var id=$(ele).attr("id");
+  $.ajax({
+    url:"/addidc",
+    data:{nameInput:$('#nameInput').val(),msgInput:$('#msgInput').val()},
+    success:function(data){
+     if (data=='ok') {
+     $('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
+           }
+      }
+
+});
+}}
+</script>
+</body>
+
+</html>
