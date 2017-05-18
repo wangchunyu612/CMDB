@@ -101,7 +101,14 @@ def authin(request):
     real_ip = get_clinet_ip(request)          #获取到主机的IP地址
     logger.info(username +' - '+ real_ip + ' - connect server' )  #将登陆信息写入日志
     if username and password is not  None:
-        userinfo = User.objects.get(username=username)
+        try:
+             userinfo = User.objects.get(username=username) #用djangop自己的认证用户
+        except Exception,e:
+             P = Login_Record(name=username, ip=real_ip)
+             P.save()
+             logger.error(username + ' - ' + real_ip + ' - login failed')
+             return render_to_response('login.html', {'login_err': 'Wrong username or password!'})
+
         user = auth.authenticate(username=username,password=password)
         if userinfo.is_active:
             if user is not None:
