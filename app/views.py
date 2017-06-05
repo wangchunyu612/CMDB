@@ -12,7 +12,7 @@ from app.backend.saltapi  import SaltAPI
 from app.backend.asset_info import get_server_asset_info
 import MySQLdb as mysql,datetime
 import  ConfigParser,sys,json,os,time,pickle
-import salt.client
+#import salt.client
 import logging
 from app.page import  pages
 from django.db.models import Q
@@ -22,7 +22,7 @@ import csv
 #db.autocommit(True)
 #c = db.cursor()
 
-client=salt.client.LocalClient()
+#client=salt.client.LocalClient()
 
 timeformat1 = '%Y-%m-%d %H:%M:%S'
 logPath = '/var/log/app/'
@@ -158,7 +158,7 @@ def addidc(request):
     else:
         idc_add = Idc(idc_name=nameInput,remark=msgInput)
         idc_add.save()
-        logger.info( str(request.user)+ ' - '+'add idc name '+str(nameInput)+'success')
+        logger.info(str(request.user) + '- '+'add idc name '+ nameInput+'success')
         return HttpResponse('ok')
 
 @login_required
@@ -167,7 +167,7 @@ def idc_delete(request,id=None):
         id = request.GET.get('id')
         idc =Idc.objects.get(id=id)
         Idc.objects.filter(id=id).delete()
-        logger.error(str(request.user)+ ' - '+'delete idc name '+str(idc.idc_name))
+        #logger.error(str(request.user)+ ' - '+'delete idc name '+idc.idc_name)
         return HttpResponseRedirect('/idc/')
 @login_required
 def idc_update(request):
@@ -177,7 +177,7 @@ def idc_update(request):
         a=Idc.objects.get(idc_name=name)
         a.remark=remark
         a.save()
-        logger.info(str(request.user)+' - '+'update idc remark '+remark)
+        #logger.info(str(request.user)+' - '+'update idc remark '+remark)
         return HttpResponseRedirect('/idc/')
 
 
