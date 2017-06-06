@@ -191,12 +191,18 @@ def addmac(request):
     if request.method == 'GET':
         name = request.GET['name']
         ip = request.GET['ip']
+        ip_lan = request.GET['ip_lan']
+        servicecode = request.GET['servicecode']
+        machine_type = request.GET['machine_type']
+        api_status = request.GET['api_status']
+        os_type = request.GET['os_type']
+        zicai_code = request.GET['zicai_code']
         idc_name = request.GET['idc_name']
         service = request.GET['service']
         idc_bh = request.GET['idc_jg']
-        mac_add = HostList(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh)
+        mac_add = HostList(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,jiekou_status=api_status,os_type=os_type,zicai_code=zicai_code)
         mac_add.save()
-        logger.info(str(request.user)+' - '+'addmac'+ ' - '+str(name)+'-'+str(ip)+'-'+str(idc_name)+'-'+str(service)+'-'+str(idc_bh))
+        logger.info(str(request.user)+' - '+'addmac'+ ' - '+name+'-'+str(ip)+'-'+idc_name+'-'+service+'-'+idc_bh)
         return HttpResponse('ok')
 @login_required
 def check_host(request):
@@ -211,7 +217,7 @@ def mac_delete(request,id=None):
         id = request.GET.get('id')
         HostInfo = HostList.objects.get(id=id)
         HostList.objects.filter(id=id).delete()
-        logger.error(str(request.user)+' - '+'delmac'+ ' - hostname:'+str(HostInfo.hostname)+'- host_ip:'+str(HostInfo.ip)+'- idc_name:'+str(HostInfo.idc_name)+'- host_application:'+str(HostInfo.application)+'- host_bianhao:'+str(HostInfo.bianhao))
+        logger.error(str(request.user)+' - '+'delmac'+ ' - hostname:'+HostInfo.hostname+'- host_ip:'+HostInfo.ip+'- idc_name:'+HostInfo.idc_name+'- host_application:'+HostInfo.application+'- host_bianhao:'+HostInfo.bianhao)
         return HttpResponseRedirect('/mac/')
 @login_required
 def mac_edit(request,id=None):
@@ -223,15 +229,22 @@ def mac_edit(request,id=None):
 @login_required
 def macresult(request):
     if request.method =='GET':
-        id = int(request.GET['id'])
-        ip = str(request.GET['ip'])
-        name = request.GET['name']
+        ip = request.GET['ip']
+        name=request.GET['name']
+        ip_lan = request.GET['ip_lan']
+        servicecode = request.GET['servicecode']
+        machine_type = request.GET['machine_type']
+        api_status = request.GET['api_status']
+        os_type = request.GET['os_type']
+        zicai_code = request.GET['zicai_code']
         idc_name = request.GET['idc_name']
         service = request.GET['service']
         idc_bh = request.GET['idc_jg']
     try:
-        mac_update = HostList.objects.filter(id=id).update(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh)
-        logger.info(str(request.user) + ' - '+'editmac'+ ' - hostname:' +  str(name)+'- host_ip:' +  str(ip)+'- idc_name:' + str(idc_name)+'- application:' + str(service)+'- bianhao:' + str(idc_bh))
+        mac_update = HostList.objects.filter(id=id).update(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,jiekou_status=api_status,os_type=os_type,zicai_code=zicai_code)
+        print   mac_update
+        #mac_update.save()
+        logger.info(str(request.user) + ' - '+'editmac'+ ' - hostname:' +  name+'- host_ip:' +  ip+'- idc_name:' + idc_name+'- application:' + service+'- bianhao:' +idc_bh)
         return HttpResponse('ok')
     finally:
         return HttpResponse('ok')
@@ -254,7 +267,7 @@ def download_result(request):
             filepath = request.POST.get('dir')
         print hostname,filepath
 #        cmd='salt %s cp.push %s' %(hostname,filepath)
-        ret=client.cmd(hostname,'cp.push',[filepath])
+        #ret=client.cmd(hostname,'cp.push',[filepath])
         print ret
 #        ret=os.popen(cmd).readlines()
         if ret[hostname]:
@@ -296,7 +309,7 @@ def file_result(request):
     filename = salt_file.split('/')[-1]
     print filename
     mini_dest = request.GET.get('dir')
-    ret=client.cmd(hostname,'cp.get_file',['salt:/'+salt_file,mini_dest])
+    #ret=client.cmd(hostname,'cp.get_file',['salt:/'+salt_file,mini_dest])
     print ret
     if ret[hostname]:
         if 'exception' in ret[hostname]:

@@ -27,8 +27,14 @@ class Login_Record(models.Model):
         verbose_name_plural=u'登录用户'
 
 class HostList(models.Model):
-    ip = models.IPAddressField(unique=True, verbose_name=u'IP地址')
+    ip = models.IPAddressField(unique=True, verbose_name=u'IP外网地址')
+    ip_lan = models.IPAddressField(unique=True, verbose_name=u'IP内网地址')
     hostname = models.CharField(max_length=30, verbose_name=u'主机名')
+    fast_server_code=models.CharField(max_length=200, verbose_name=u'快速服务码')
+    host_type = models.CharField(max_length=200, verbose_name=u'服务器型号')
+    jiekou_status=models.CharField(max_length=200, verbose_name=u'接口状态')
+    os_type= models.CharField(max_length=200, verbose_name=u'操作系统')
+    zicai_code= models.CharField(max_length=200, verbose_name=u'资材编号')
     group = models.ManyToManyField('Group', null=True, blank=True ,verbose_name=u'组名')
     application = models.CharField(max_length=20, verbose_name=u'应用')
     bianhao = models.CharField(max_length=30, verbose_name=u'编号')

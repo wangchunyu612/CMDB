@@ -51,6 +51,43 @@
     </div>
   </div>
   <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">内网ip</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='ip_lan' value='{{host.ip_lan}}'>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">服务码</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='servicecode' value='{{host.fast_server_code}}'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">机器型号</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='machine_type' value='{{host.host_type}}'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">接口状态</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='api_status' value='{{host.jiekou_status}}'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">操作系统</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='os_type' value='{{host.os_type}}'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">资材编号</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='zicai_code' value='{{host.zicai_code}}'>
+    </div>
+  </div>
+  <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">机柜</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id='idc_jg' value='{{host.bianhao}}'>
@@ -228,7 +265,7 @@ function macresult(ele){
      var id=$(ele).attr("id");
   $.ajax({
     url:"/macresult/",
-    data:{id:$('#bianhao').val(),name:$('#name').val(),ip:$('#ip').val(),idc_jg:$('#idc_jg').val(),idc_name:$('#idc_name').val(),service:$('#service').val()},
+    data:{id:$('#bianhao').val(),name:$('#name').val(),ip:$('#ip').val(),idc_jg:$('#idc_jg').val(),idc_name:$('#idc_name').val(),service:$('#service').val(),ip_lan:$('#ip_lan').val(),servicecode:$('#servicecode').val(),machine_type:$('#machine_type').val(),os_type:$('#os_type').val(),api_status:$('#api_status').val(),zicai_code:$('#zicai_code').val()},
     success:function(data){
      if (data=='ok') {
      $('#tipModal').find('.modal-body').html('修改成功').end().modal('show')
