@@ -179,7 +179,53 @@ def idc_update(request):
         a.save()
         #logger.info(str(request.user)+' - '+'update idc remark '+remark)
         return HttpResponseRedirect('/idc/')
+@login_required
+def netdev(request):
+    all_net_dev = net_dev.objects.all()
+    all_idc = Idc.objects.all()
+    return    render_to_response('net_dev.html',locals())
+@login_required
+def net_add_dev(request):
+    #if  request.method =='GET':
+        print     request.GET
+        print  request.POST.get('brand1')
+        brand=request.GET['brand']
+        model_num=request.GET['model_num']
+        type=request.GET['type']
+        addr=request.GET['addr']
+        idc_name=request.GET['idc_name']
+        net_add=net_dev(brand=brand,model_num=model_num,type=type,addr=addr,idc_name=idc_name)
+        net_add.save()
+        return  HttpResponse('ok')
 
+@login_required
+def net_delete(request):
+    pass
+@login_required
+def net_edit(request):
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        print id
+        all_idc = Idc.objects.all()
+        all_net_dev = net_dev.objects.filter(id=id)
+        return render_to_response("net_edit.html",locals())
+@login_required
+def netresult(request):
+    if request.method =='GET':
+        id = int(request.GET['id'])
+        brand = request.GET['brand']
+        model_num = request.GET['model_num']
+        type = request.GET['type']
+        addr = request.GET['addr']
+        idc_name = request.GET['idc_name']
+    try:
+        mac_update = HostList.objects.filter(id=id).update(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,jiekou_status=api_status,os_type=os_type,zicai_code=zicai_code)
+        print   mac_update
+        #mac_update.save()
+        logger.info(str(request.user) + ' - '+'editmac'+ ' - hostname:' +  name+'- host_ip:' +  ip+'- idc_name:' + idc_name+'- application:' + service+'- bianhao:' +idc_bh)
+        return HttpResponse('ok')
+    finally:
+        return HttpResponse('ok')
 
 @login_required
 def mac(request):
@@ -229,7 +275,10 @@ def mac_edit(request,id=None):
 @login_required
 def macresult(request):
     if request.method =='GET':
+        id = int(request.GET['id'])
         ip = request.GET['ip']
+        ip_q=request.POST.get('ip_q')
+        print   ip_q
         name=request.GET['name']
         ip_lan = request.GET['ip_lan']
         servicecode = request.GET['servicecode']

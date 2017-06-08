@@ -1,3 +1,4 @@
+#coding utf-8
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
@@ -39,6 +40,10 @@ urlpatterns = patterns('',
     (r'^mac/mac_edit/$',mac_edit),
     (r'^service',service_result),
     (r'^macresult/$',macresult),
+    (r'^net_dev/$',netdev),
+    (r'^net_add_dev/$',net_add_dev),
+    (r'^net_dev/net_delete/$',net_delete),
+    (r'^net_dev/net_edit/$',net_edit),
     (r'^group$',group),
     (r'^group_result',group_result),
     (r'^group/group_delete',group_delete),

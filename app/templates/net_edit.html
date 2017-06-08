@@ -17,7 +17,7 @@
 
 
 <div class="row" style='margin-top:20px'>
-	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>编辑机器</button>
+	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>编辑网络设备</button>
 </div>
 <div class="row">
                 <div class="col-lg-12">
@@ -29,92 +29,57 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 
-{%for host in all_host %}
+{%for all_net_dev in all_net_dev %}
 <div style="width:50%">
-<form class="form-horizontal"  method="post" action="/macresult/">
+<form class="form-horizontal"  method="post" action="/netresult/">
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">编号</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" readonly="readonly"  id='bianhao' value='{{host.id}}'>
+      <input type="text" class="form-control" readonly="readonly"  id='bianhao' value='{{all_net_dev.id}}'>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">机器名</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='name' value='{{host.hostname}}'>
+      <input type="text" class="form-control"  id='brand'      value='{{all_net_dev.brand}}'>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">ip地址</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">型号</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='ip'     value='{{host.ip}}'>
+      <input type="text" class="form-control"  id='model_num'     value='{{all_net_dev.model_num}}'>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">内网ip</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='ip_lan' value='{{host.ip_lan}}'>
+      <input type="text" class="form-control"  id='type'    value='{{all_net_dev.type}}'>
     </div>
   </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">位置</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control"  id='addr'    value='{{all_net_dev.addr}}' >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">机房</label>
+    <div class="col-sm-10">
+     <select id="idc_name"  class="form-control"  value='{{all_net_dev.idc_name}}'>
+			{%for all_idc in all_idc%}
+			<option>{{all_idc.idc_name}}</option>
+			{%endfor%}
 
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">服务码</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='servicecode' value='{{host.fast_server_code}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">机器型号</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='machine_type' value='{{host.host_type}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">接口状态</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='api_status' value='{{host.jiekou_status}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">操作系统</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='os_type' value='{{host.os_type}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">资材编号</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='zicai_code' value='{{host.zicai_code}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">机柜</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='idc_jg' value='{{host.bianhao}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">idc</label>
-    <div class="col-sm-10">
-    <select id="idc_name"  class="form-control" value="{{ host.idc_name }}" >
-	                {%for all_idc in all_idc%}
-                        <option>{{all_idc.idc_name}}</option>
-                  {%endfor%}
     </select>
     </div>
   </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">运行服务</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='service' value='{{host.application}}'>
-    </div>
-  </div>
+
 </form>
 {%endfor%}
       </div>
       <div class="modal-footer" style="width:50%">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><a href="/mac/" >取消</a></button>
-        <button type="button" class="btn btn-primary"  onclick="macresult(this);" >保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><a href="/net_dev/" >取消</a></button>
+        <button type="button" class="btn btn-primary"  onclick="netresult(this);" >保存</button>
    </div>
   </div>
     </div><!-- /.modal-content -->
@@ -122,6 +87,10 @@
 </div><!-- /.modal -->
 
 
+
+
+
+                            <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
 </div>
@@ -136,7 +105,7 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  ><a href="/mac/">确认</a></button>
+        <button type="button" class="btn btn-primary"  ><a href="/net_dev/">确认</a></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -244,7 +213,7 @@
 		})
 		if (is_val) {
 
-		$.get('/addmac',$('#addmacForm').serialize(),function(data){
+		$.get('/add_net_dev',$('#addmacForm').serialize(),function(data){
 			if (data=='ok') {
 				$('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
 			};
@@ -256,12 +225,12 @@
 </script>
 <script type="text/javascript">
 
-function macresult(ele){
-   if($('#bianhao').val()&&$('#name').val()&&$('#ip').val()&&$('#idc_jg').val()&&$('#idc_name').val()&&$('#service').val()){
+function netresult(ele){
+   if($('#bianhao').val()&&$('#brand').val()&&$('#model_num').val()&&$('#type').val()&&$('#addr').val()&&$('#idc_name').val()){
      var id=$(ele).attr("id");
   $.ajax({
-    url:"/macresult/",
-    data:{id:$('#bianhao').val(),name:$('#name').val(),ip:$('#ip').val(),idc_jg:$('#idc_jg').val(),idc_name:$('#idc_name').val(),service:$('#service').val(),ip_lan:$('#ip_lan').val(),servicecode:$('#servicecode').val(),machine_type:$('#machine_type').val(),os_type:$('#os_type').val(),api_status:$('#api_status').val(),zicai_code:$('#zicai_code').val()},
+    url:"/netresult/",
+    data:{id:$('#bianhao').val(),brand:$('#brand').val(),model_num:$('#model_num').val(),type:$('#type').val(),addr:$('#addr').val(),idc_name:$('#idc_name').val()},
     success:function(data){
      if (data=='ok') {
      $('#tipModal').find('.modal-body').html('修改成功').end().modal('show')

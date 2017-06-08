@@ -45,6 +45,14 @@ class HostList(models.Model):
         verbose_name = u'主机列表'
 	verbose_name_plural = u'主机列表'
 
+
+class  net_dev(models.Model):
+    brand=models.CharField(max_length=200,verbose_name=u'品牌')
+    model_num=models.CharField(max_length=100,verbose_name=u'型号')
+    type=models.CharField(max_length=100,verbose_name=u'类型')
+    addr=models.CharField(max_length=200,verbose_name=u'设备位置')
+    idc_name = models.CharField(max_length=40, null=True, blank=True, verbose_name=u'所属机房')
+    group = models.ManyToManyField('Group', null=True, blank=True, verbose_name=u'组名')
 class ServerAsset(models.Model):
     manufacturer = models.CharField(max_length=20, verbose_name=u'厂商')
     productname = models.CharField(max_length=30, verbose_name=u'产品型号')
