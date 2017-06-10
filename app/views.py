@@ -240,7 +240,8 @@ def netresult(request):
 
 @login_required
 def  net_search(request):
-     #if request.method =='POST':
+    if request.method =='POST':
+         all_idc = Idc.objects.all()
          search_word=request.POST.get('keyword')
          print    search_word
          if search_word =='':
@@ -252,6 +253,7 @@ def  net_search(request):
                                          Q(addr=search_word) |
                                          Q(idc_name=search_word))
             net_dev_count = all_net_dev.count()
+            all_idc = Idc.objects.all()
             return render_to_response('net_dev.html', locals())
 
 
@@ -260,6 +262,7 @@ def  net_search(request):
 def mac(request):
     all_host = HostList.objects.all()
     all_idc = Idc.objects.all()
+    net_mac_count = all_host.count()
     return render_to_response("mac.html",locals())
 @login_required
 def addmac(request):
@@ -327,7 +330,27 @@ def macresult(request):
     finally:
         return HttpResponse('ok')
 
-
+@login_required
+def   mac_search(request):
+    if request.method =='POST':
+            all_idc = Idc.objects.all()
+            search_word = request.POST.get('keyword')
+            print    search_word
+            if search_word == '':
+                return HttpResponseRedirect('/mac/')
+            else:
+                all_host = HostList.objects.filter(Q(ip=search_word) |
+                                                     Q(hostname=search_word) |
+                                                     Q(application=search_word) |
+                                                     Q(idc_name=search_word) |
+                                                     Q(ip_lan=search_word)|
+                                                   Q(fast_server_code=search_word) |
+                                                   Q(host_type=search_word) |
+                                                   Q(jiekou_status=search_word) |
+                                                   Q(os_type=search_word) |
+                                                   Q(zicai_code=search_word))
+                net_mac_count = all_host.count()
+                return render_to_response('mac.html', locals())
 
 @login_required
 def download(request):

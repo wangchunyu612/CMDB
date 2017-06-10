@@ -8,7 +8,15 @@ from datetime import *
 import time
 class Idc(models.Model):
     idc_name = models.CharField(max_length=40, verbose_name=u'机房名称')
-    remark = models.CharField(max_length=40, verbose_name=u'备注')
+    networr_bandwidth=models.CharField(max_length=50,verbose_name=u'网络带宽')
+    operator=models.CharField(max_length=50,verbose_name=u'运营商')
+    room_type=models.CharField(max_length=50,verbose_name=u'机房类型')
+    Contact_person=models.CharField(max_length=50,verbose_name=u'联系人')
+    phone = models.CharField(max_length=32, verbose_name=u'联系电话')
+    address = models.CharField(max_length=128, blank=True, null=True, verbose_name=u"机房地址")
+    create_time = models.DateField(auto_now=True)
+    remark = models.CharField(max_length=200,blank=True, null=True,verbose_name=u'备注')
+
     def __unicode__(self):
 	return self.idc_name
     class Meta:

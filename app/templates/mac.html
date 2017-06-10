@@ -13,6 +13,22 @@
             </div>
             <div class="row" style='margin-top:20px'>
             	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>添加机器</button>
+                <div class="col-sm-3" style="float: right;">
+                 <form id="asset_form" method="post" action="/mac/mac_search/" >
+                            <div class="input-group">
+                                <input type="text" class="form-control m-b" id="search_input" name="keyword" placeholder="Search">
+                                <input type="text" style="display: none">
+                                <div class="input-group-btn"">
+                                    <input type="submit"  name="search" class="btn btn-xm btn-primary search_btn"   value="搜索">
+                                        搜索
+                                    </input>
+{#                                    <button type="button" href="/assets/change_info_ajax/?_search=true" name="_search" class="btn btn-xm btn-success search_btn_pdf" onclick="return false">#}
+{#                                        导出#}
+{#                                    </button>#}
+                                </div>
+                            </div>
+                         </form>
+                        </div>
             </div>
 
             <div class="row">
