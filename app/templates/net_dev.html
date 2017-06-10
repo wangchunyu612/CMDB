@@ -12,7 +12,26 @@
               </nav>
             </div>
             <div class="row" style='margin-top:20px'>
-            	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>添加网络设备</button>
+
+                <button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>添加网络设备</button>
+
+             <div class="col-sm-3" style="float: right;">
+                 <form id="asset_form" method="post" action="/net_dev/net_search/" >
+                            <div class="input-group">
+                                <input type="text" class="form-control m-b" id="search_input" name="keyword" placeholder="Search">
+                                <input type="text" style="display: none">
+                                <div class="input-group-btn"">
+                                    <input type="submit"  name="search" class="btn btn-xm btn-primary search_btn"   value="搜索">
+                                        搜索
+                                    </input>
+{#                                    <button type="button" href="/assets/change_info_ajax/?_search=true" name="_search" class="btn btn-xm btn-success search_btn_pdf" onclick="return false">#}
+{#                                        导出#}
+{#                                    </button>#}
+                                </div>
+                            </div>
+                         </form>
+                        </div>
+
             </div>
 
             <div class="row">
@@ -57,7 +76,7 @@
                  {%endfor%}
                                             </tbody>
                                             </table>
-
+                                            <div style="float: right;">共计{{ net_dev_count }}个网络设备</div>
                                         </div>
                                         <!-- /.table-responsive -->
                                     </div>
@@ -278,4 +297,34 @@ success:function(data){
   }
 });
 }}
+
+
+ $("#search_input").keydown(function(e){
+        if(e.keyCode==13){
+            change_info()
+            }
+    });
+    $('.search_btn').unbind('click').bind('click',function(){
+        var url= $(this).attr("href");
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: $("#asset_form").serialize(),
+            success: function (data) {
+                $("#replace").html(data);
+            }
+        });
+    });
+ function change_info(){
+        // var data = $("#asset_form").serialize();
+        // location.href = "/assets/change_info_ajax/?" + data;
+        $.ajax({
+            type: "GET",
+            url: "/mac/change_info_ajax/",
+            data: $("#asset_form").serialize(),
+            success: function (data) {
+                $("#replace").html(data);
+            }
+        });
+    }
 </script>

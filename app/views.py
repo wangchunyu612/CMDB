@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.contrib import auth
 from django import  forms
+from django.db.models import Q
 from app.models import *
 from app.backend.saltapi  import SaltAPI
 from app.backend.asset_info import get_server_asset_info
@@ -183,6 +184,8 @@ def idc_update(request):
 def netdev(request):
     all_net_dev = net_dev.objects.all()
     all_idc = Idc.objects.all()
+    net_dev_count = net_dev.objects.all().count()
+    print    net_dev_count
     return    render_to_response('net_dev.html',locals())
 @login_required
 def net_add_dev(request):
@@ -232,6 +235,26 @@ def netresult(request):
         return HttpResponse('ok')
     finally:
         return HttpResponse('ok')
+
+
+
+@login_required
+def  net_search(request):
+     #if request.method =='POST':
+         search_word=request.POST.get('keyword')
+         print    search_word
+         if search_word =='':
+            return  HttpResponseRedirect('/net_dev/')
+         else:
+            all_net_dev = net_dev.objects.filter(Q(brand=search_word) |
+                                         Q(model_num=search_word) |
+                                         Q(type=search_word) |
+                                         Q(addr=search_word) |
+                                         Q(idc_name=search_word))
+            net_dev_count = all_net_dev.count()
+            return render_to_response('net_dev.html', locals())
+
+
 
 @login_required
 def mac(request):
