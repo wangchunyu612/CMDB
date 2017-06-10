@@ -200,7 +200,12 @@ def net_add_dev(request):
 
 @login_required
 def net_delete(request):
-    pass
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        NetInfo = net_dev.objects.get(id=id)
+        net_dev.objects.filter(id=id).delete()
+        #logger.error(str(request.user) + ' - ' + 'delmac' + ' - hostname:' + HostInfo.hostname + '- host_ip:' + HostInfo.ip + '- idc_name:' + HostInfo.idc_name + '- host_application:' + HostInfo.application + '- host_bianhao:' + HostInfo.bianhao)
+        return HttpResponseRedirect('/net_dev/')
 @login_required
 def net_edit(request):
     if request.method == 'GET':
@@ -213,16 +218,17 @@ def net_edit(request):
 def netresult(request):
     if request.method =='GET':
         id = int(request.GET['id'])
+        print  id
         brand = request.GET['brand']
         model_num = request.GET['model_num']
         type = request.GET['type']
         addr = request.GET['addr']
         idc_name = request.GET['idc_name']
     try:
-        mac_update = HostList.objects.filter(id=id).update(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,jiekou_status=api_status,os_type=os_type,zicai_code=zicai_code)
+        net_update = net_dev.objects.filter(id=id).update(brand=brand,model_num=model_num,type=type,addr=addr,idc_name=idc_name)
         print   mac_update
         #mac_update.save()
-        logger.info(str(request.user) + ' - '+'editmac'+ ' - hostname:' +  name+'- host_ip:' +  ip+'- idc_name:' + idc_name+'- application:' + service+'- bianhao:' +idc_bh)
+        #logger.info(str(request.user) + ' - '+'editmac'+ ' - hostname:' +  name+'- host_ip:' +  ip+'- idc_name:' + idc_name+'- application:' + service+'- bianhao:' +idc_bh)
         return HttpResponse('ok')
     finally:
         return HttpResponse('ok')

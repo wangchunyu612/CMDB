@@ -31,12 +31,12 @@
                                                 <thead>
                                                     <tr>
             					    <th >编号</th>
-                                                        <th >品牌</th>
-                                                        <th >型号</th>
-                                                        <th >类型</th>
-                                                        <th >机房</th>
-                                                        <th >位置</th>
-                                                        <th >操作</th>
+                                                        <th style="text-align:center;" >品牌</th>
+                                                        <th style="text-align:center;">型号</th>
+                                                        <th style="text-align:center;">类型</th>
+                                                        <th style="text-align:center;">位置</th>
+                                                        <th style="text-align:center;">机房</th>
+                                                        <th style="text-align:center;">操作</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -49,9 +49,9 @@
                 <td id="addr">{{all_net_dev.addr}}</td>
                 <td id="idc_name">{{all_net_dev.idc_name}}</td>
 
-                <td>
+                <td align="center">
             <span class="label label-primary hover deletemac"><a href="/net_dev/net_edit/?id={{ all_net_dev.id }}" style="color:white"  role="button">编辑</a></span>
-            <span class=" btn btn-xs btn-danger"><a href="/net_dev/net_delete/?id={{ all_net_dev.id }}" style="color:white"  role="button">删除</a></span>
+            <span class=" label label-primary badge-danger"><a href="/net_dev/net_delete/?id={{ all_net_dev.id }}" style="color:white"  role="button">删除</a></span>
             	</td>
             </tr>
                  {%endfor%}
@@ -118,7 +118,7 @@
       <!-- <input type="text" class="form-control" name='ip'> -->
     </div>
   </div>
-<input   type="submit" value="tujiao">
+
 </form>
       </div>
       <div class="modal-footer">
