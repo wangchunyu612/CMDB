@@ -6,6 +6,17 @@ from django.contrib.auth.models import User
 from django.utils.timezone import now
 from datetime import *
 import time
+idc_type = (
+    (0, u"CDN"),
+    (1, u"核心")
+)
+
+idc_operator = (
+    (0, u"电信"),
+    (1, u"联通"),
+    (2, u"移动"),
+    (3, u"铁通"),
+    (4, u"小带宽"),)
 class Idc(models.Model):
     idc_name = models.CharField(max_length=40, verbose_name=u'机房名称')
     networr_bandwidth=models.CharField(max_length=50,verbose_name=u'网络带宽')

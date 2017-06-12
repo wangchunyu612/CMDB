@@ -18,6 +18,7 @@ import logging
 from app.page import  pages
 from django.db.models import Q
 import csv
+from   form import  IdcForm
 
 #db = mysql.connect(user="root", passwd="123456", db="monitor", charset="utf8")
 #db.autocommit(True)
@@ -144,9 +145,44 @@ def authin(request):
 def idc(request):
     all_idc = Idc.objects.all()
     return render_to_response("idc.html",locals()) #Python的locals()函数会以dict类型返回当前位置的全部局部变量。
+
+@login_required
+def addidc1(request):
+    return   render_to_response('idc_add.html',locals())
+def addidc2(request):
+    nameInput = request.GET['nameInput']
+    daikuanInput = request.GET['daikuan']
+    yunyingshangInput = request.GET['yunyingshang']
+    typeInput = request.GET['type']
+    connectInput = request.GET['connect']
+    phoneInput = request.GET['phone']
+    addressInput = request.GET['address']
+    msgInput = request.GET['msgInput']
+    all_idc = Idc.objects.all()
+    idc_name_list = []
+    for i in all_idc:
+        idc_name_list.append(i.idc_name)
+        #    print idc_name_list
+    if nameInput in idc_name_list:
+        # logger.error(str(request.user) + ' - ' +'idc name'+' '+str(nameInput) +' - '+'exists!')
+        return HttpResponse('exist')
+    else:
+        idc_add = Idc(idc_name=nameInput, remark=msgInput, networr_bandwidth=daikuanInput, operator=yunyingshangInput,
+                      room_type=typeInput, Contact_person=connectInput, phone=phoneInput, address=addressInput)
+        idc_add.save()
+        # logger.info(str(request.user) + '- '+'add idc name '+ nameInput+'success')
+        return HttpResponse('ok')
+
+
 @login_required
 def addidc(request):
     nameInput = request.GET['nameInput']
+    daikuanInput = request.GET['daikuan']
+    yunyingshangInput = request.GET['yunyingshang']
+    typeInput = request.GET['type']
+    connectInput = request.GET['connect']
+    phoneInput = request.GET['phone']
+    addressInput = request.GET['address']
     msgInput = request.GET['msgInput']
     all_idc = Idc.objects.all()
     idc_name_list=[]
@@ -154,12 +190,12 @@ def addidc(request):
         idc_name_list.append(i.idc_name)
 #    print idc_name_list
     if nameInput in idc_name_list:
-        logger.error(str(request.user) + ' - ' +'idc name'+' '+str(nameInput) +' - '+'exists!')
+       # logger.error(str(request.user) + ' - ' +'idc name'+' '+str(nameInput) +' - '+'exists!')
         return HttpResponse('exist')
     else:
-        idc_add = Idc(idc_name=nameInput,remark=msgInput)
+        idc_add = Idc(idc_name=nameInput,remark=msgInput,networr_bandwidth=daikuanInput,operator=yunyingshangInput,room_type=typeInput,Contact_person=connectInput,phone=phoneInput,address=addressInput)
         idc_add.save()
-        logger.info(str(request.user) + '- '+'add idc name '+ nameInput+'success')
+        #logger.info(str(request.user) + '- '+'add idc name '+ nameInput+'success')
         return HttpResponse('ok')
 
 @login_required
@@ -180,6 +216,33 @@ def idc_update(request):
         a.save()
         #logger.info(str(request.user)+' - '+'update idc remark '+remark)
         return HttpResponseRedirect('/idc/')
+@login_required
+def   idc_edit(request):
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        all_idc = Idc.objects.filter(id=id)
+        return render_to_response("idc_edit.html", locals())
+def idcresult(request):
+    if  request.method =='GET':
+        print  request.GET
+        id = int(request.GET['id'])
+        #id = request.GET.get('id')
+        nameInput = request.GET['nameInput']
+        daikuanInput = request.GET['daikuan']
+        yunyingshangInput = request.GET['yunyingshang']
+        typeInput = request.GET['type']
+        connectInput = request.GET['connect']
+        phoneInput = request.GET['phone']
+        addressInput = request.GET['address']
+        msgInput = request.GET['msgInput']
+        try:
+            idc_update=Idc.objects.filter(id=id).update(idc_name=nameInput,remark=msgInput,networr_bandwidth=daikuanInput,operator=yunyingshangInput,room_type=typeInput,Contact_person=connectInput,phone=phoneInput,address=addressInput)
+        except Exception,e:
+            return HttpResponseRedirect('/idc/')
+        finally:
+            return HttpResponse('ok')
+
+
 @login_required
 def netdev(request):
     all_net_dev = net_dev.objects.all()

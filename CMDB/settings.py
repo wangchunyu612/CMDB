@@ -76,6 +76,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     'F:/pythoncode/CMDB/static',
+
 )
 
 # List of finder classes that know how to find static files in
@@ -126,11 +127,16 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   # 'bootstrapform',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'app',
+    'bootstrap3',
+    'django_forms_bootstrap',
+'bootstrap_toolkit',
+'crispy_forms',
     #'south',
 )
 

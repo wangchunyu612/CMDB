@@ -11,17 +11,43 @@
               </nav>
             </div>
 
-<form class="form-inline"  method="post" action="/addidc/">
+<!--<form class="form-inline"  method="post" action="/addidc/">
   <div class="form-group">
-    <label for="exampleInputName2">idc名称</label>
+    <label for="exampleInputName2">名称</label>&nbsp;&nbsp;&nbsp;
     <input type="text" class="form-control" id="nameInput">
   </div>
+    <div class="form-group">
+    <label for="exampleInputName2">带宽</label>
+    <input type="text" class="form-control" id="daikuan">
+  </div>
+    <div class="form-group">
+    <label for="exampleInputName2">运营商</label>
+    <input type="text" class="form-control" id="yunyingshang">
+  </div>
+    <div class="form-group">
+    <label for="exampleInputName2">机房类型</label>
+    <input type="text" class="form-control" id="type">
+  </div>
+     <div class="form-group">
+    <label for="exampleInputName2">联系人</label>
+    <input type="text" class="form-control" id="connect">
+  </div>
+    <div class="form-group">
+    <label for="exampleInputName2">电话</label>
+    <input type="text" class="form-control" id="phone">
+  </div>
+    <div class="form-group">
+    <label for="exampleInputName2">地址</label>&nbsp;&nbsp;&nbsp;
+    <input type="text" class="form-control" id="address">
+  </div>
   <div class="form-group">
-    <label for="exampleInputEmail2">备注</label>
+    &nbsp;<label for="exampleInputEmail2">备注</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="text" class="form-control"  id="msgInput">
   </div>
   <button type="button" class="btn  btn-primary"   style="color:bule" onclick="cmdrun(this);">添加</button>
-</form>
+    <a href="/addidc/"  class="btn  btn-primary"   style="color:green"  role="button">编辑</a>
+</form>-->
+        <a href="/addidc/"  class="btn  btn-primary"   style="color:white"  role="button">添加机房</a>
 <div style="color:#F00" text-align="center" id='errorMsg'>
 
 </div>
@@ -87,8 +113,10 @@
 			<a href="/mac/check_host/?idc_name={{all_idc.idc_name}}" style='color:white'>查看</a>
 		</span>&nbsp;&nbsp;
 		<span class=" btn btn-xs btn-warning" data-id='6'>
-		<a style='color:white'  onClick="update_idc('{{ all_idc.idc_name }}')";>编辑</a>
-                </span>&nbsp;&nbsp;
+		<!--<a style='color:white'  onClick="update_idc('{{ all_idc.idc_name }}')";>编辑</a>
+             <span class="label label-primary hover deletemac"><a href="/mac/mac_edit/?id={{ all_host.id }}" style="color:white"  role="button">编辑</a></span>
+                </span>-->
+            <a href="/idc/idc_edit/?id={{ all_idc.id }}" style="color:white"  role="button">编辑</a></span>
                 <span class="btn btn-xs btn-danger" data-id='6'>
             		<a style='color:white'  onClick="del_idc('/idc/idc_delete/?id={{ all_idc.id }}');">删除</a>
                             </span>&nbsp;&nbsp;
@@ -168,7 +196,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">成功</h4>
+        <h4 class="modal-title">龙体科技</h4>
       </div>
       <div class="modal-body">
       </div>
@@ -304,11 +332,11 @@
 <script type="text/javascript">
 
 function cmdrun(ele){
-   if($('#nameInput').val()&&$('#msgInput').val()){
+   if($('#nameInput').val()&&$('#msgInput').val()&&$('#daikuan').val()&&$('#yunyingshang').val()){
      var id=$(ele).attr("id");
   $.ajax({
     url:"/addidc/",
-    data:{nameInput:$('#nameInput').val(),msgInput:$('#msgInput').val()},
+    data:{nameInput:$('#nameInput').val(),msgInput:$('#msgInput').val(),daikuan:$('#daikuan').val(),yunyingshang:$('#yunyingshang').val(),type:$('#type').val(),msgInput:$('#msgInput').val(),connect:$('#connect').val(),phone:$('#phone').val(),address:$('#address').val()},
     success:function(data){
      if (data=='ok') {
      $('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
