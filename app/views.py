@@ -320,7 +320,11 @@ def  net_search(request):
             return render_to_response('net_dev.html', locals())
 
 
-
+@login_required
+def   domain():
+     all_domain=domain.objects.all()
+     domain_count = all_domain.count()
+     return render_to_response('domain.html',locals())
 @login_required
 def mac(request):
     all_host = HostList.objects.all()

@@ -17,6 +17,13 @@ idc_operator = (
     (2, u"移动"),
     (3, u"铁通"),
     (4, u"小带宽"),)
+class  domain(models.Model):
+     domain_name=models.CharField(max_length=150,verbose_name=u'域名')
+     project=models.CharField(max_length=200, blank=True, null=True, verbose_name=u"使用项目")
+     status=models.CharField(max_length=150,verbose_name=u'状态')
+     register_time=models.DateTimeField()
+     expire_date=models.DateTimeField()
+     remark=models.CharField(max_length=200,)
 class Idc(models.Model):
     idc_name = models.CharField(max_length=40, verbose_name=u'机房名称')
     networr_bandwidth=models.CharField(max_length=50,verbose_name=u'网络带宽')
