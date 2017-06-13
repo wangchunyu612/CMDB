@@ -321,10 +321,14 @@ def  net_search(request):
 
 
 @login_required
-def   domain():
-     all_domain=domain.objects.all()
+def  domain_name(request):
+     all_domain = domain.objects.all()
      domain_count = all_domain.count()
-     return render_to_response('domain.html',locals())
+     return  render_to_response('domain.html',locals())
+@login_required
+def   adddomain(request):
+    if   request.method == 'GET':
+          pass
 @login_required
 def mac(request):
     all_host = HostList.objects.all()

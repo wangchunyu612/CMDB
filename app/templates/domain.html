@@ -1,10 +1,296 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+{% include 'base.html' %}
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+              <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                  <div class="navbar-header">
+                      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                      <form role="search" class="navbar-form-custom" method="get" action="">
+                      </form>
+                  </div>
+                  {% include 'base1.html' %}
+              </nav>
+            </div>
+            <div class="row" style='margin-top:20px'>
+            	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>添加机器</button>
+                <div class="col-sm-3" style="float: right;">
+                 <form id="asset_form" method="post" action="/mac/mac_search/" >
+                            <div class="input-group">
+                                <input type="text" class="form-control m-b" id="search_input" name="keyword" placeholder="Search">
+                                <input type="text" style="display: none">
+                                <div class="input-group-btn"">
+                                    <input type="submit"  name="search" class="btn btn-xm btn-primary search_btn"   value="搜索">
+                                        搜索
+                                    </input>
+{#                                    <button type="button" href="/assets/change_info_ajax/?_search=true" name="_search" class="btn btn-xm btn-success search_btn_pdf" onclick="return false">#}
+{#                                        导出#}
+{#                                    </button>#}
+                                </div>
+                            </div>
+                         </form>
+                        </div>
+            </div>
+
+            <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default" style='margin-top:20px;'>
+            <!--                         <div class="panel-heading">
+                                       idc信息
+                                        <button class='btn btn-default' id='addIdc'>添加idc</button>
+                                    </div> -->
+                                    <!-- /.panel-heading -->
+                                    <div class="panel-body">
+                                        <div class="dataTable_wrapper">
+
+
+                                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                <thead>
+                                                    <tr>
+            					    <th style="width: 5%">编号</th>
+                                                        <th  style="text-align:center;">域名</th>
+                                                        <th  style="text-align:center;">使用项目</th>
+                                                        <th  style="text-align:center;">状态</th>
+                                                        <th  style="text-align:center;">注册时间</th>
+                                                        <th  style="text-align:center;">到期时间</th>
+                                                        <th  style="text-align:center;">备注</th>
+                                                        <th  style="text-align:center;">操作</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                 {%for all_domain in all_domain %}
+            <tr>
+                <td id="bianhao">{{all_domain.id}}</td>
+            	<td    id="host">{{all_domain.domain_name}}</td>
+            	<td id="host_ip">{{all_domain.project}}</td>
+                <td id="host_ip">{{all_domain.status}}</td>
+                <td id="host_ip">{{all_domain.register_time|date:"Y-m-d H:i:s"}}</td>
+                <td id="host_ip">{{all_domain.expire_date|date:"Y-m-d H:i:s"}}</td>
+                <td id="host_ip">{{all_domain.remark}}</td>
+            	<td align="center" >
+            <span class="label label-primary hover deletemac"><a href="/mac/mac_edit/?id={{ all_host.id }}" style="color:white"  role="button">编辑</a></span>
+            <span class=" label label-primary badge-danger"><a href="/mac/mac_delete/?id={{ all_host.id }}" style="color:white"  role="button">删除</a></span>
+            	</td>
+            </tr>
+                 {%endfor%}
+                                            </tbody>
+                                            </table>
+                                         <div style="float: right;">共计{{ domain_count }}台机器</div>
+                                        </div>
+                                        <!-- /.table-responsive -->
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+            </div>
+
+
+
+  {% include 'base2.html' %}
+          </div>
+</div>
+
+<div class="modal fade" id='addmacModal'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">添加域名</h4>
+      </div>
+      <div class="modal-body">
+<form class="form-horizontal"  method="post" action="/adddomain/">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">域名</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='name'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">使用项目</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='project'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='status'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">注册时间</label>
+    <div class="col-sm-10">
+        <input type="datetime-local" class="form-control" value="2014-09-24T13:59:59"/>
+     <!-- <input type="text" class="form-control" id='register_time'>-->
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">到期时间</label>
+    <div class="col-sm-10">
+        <input type="datetime-local" class="form-control" value="2014-09-24T13:59:59"/>
+      <!--<input type="text" class="form-control" id='expire_date'>-->
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">备注</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id='remark'>
+    </div>
+  </div>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary"  onclick="domainadd(this);" >确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id='tipModal'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">龙体科技</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<script>
+$('#tipModal').on('hide.bs.modal',function(){
+    location.reload()
+})
+$(function(){
+       var oLanguage={
+    "oAria": {
+        "sSortAscending": ": 升序排列",
+        "sSortDescending": ": 降序排列"
+    },
+    "oPaginate": {
+        "sFirst": "首页",
+        "sLast": "末页",
+        "sNext": "下页",
+        "sPrevious": "上页"
+    },
+    "sEmptyTable": "没有相关记录",
+    "sInfo": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+    "sInfoEmpty": "第 0 到 0 条记录，共 0 条",
+    "sInfoFiltered": "(从 _MAX_ 条记录中检索)",
+    "sInfoPostFix": "",
+    "sDecimal": "",
+    "sThousands": ",",
+    "sLengthMenu": "每页显示条数: _MENU_",
+    "sLoadingRecords": "正在载入...",
+    "sProcessing": "正在载入...",
+    "sSearch": "搜索:",
+    "sSearchPlaceholder": "",
+    "sUrl": "",
+    "sZeroRecords": "没有相关记录"
+}
+$.fn.dataTable.defaults.oLanguage=oLanguage;
+$('#dataTables-example').DataTable({
+        responsive: true,
+        // iDisplayLength:3
+});
+});
+var pro = 10
+var timer = null
+timer = setInterval(function(){
+    if (pro<100) {
+
+    pro = pro*1.5
+
+    $('#progress-reboot').css('width',pro+'%')
+    }else{
+        clearInterval(timer)
+        $('#progress-reboot').addClass('hide')
+    }
+
+},100)
+var is_right = true
+setInterval(function(){
+    var t = $('#alertText')
+    var left = parseInt(t.css('left'))
+    var val
+    if (is_right) {
+        if (left<300) {
+            val = left+1
+            t.css('left',val)
+        }else{
+            is_right = false
+        }
+    }else{
+        if (left>250) {
+            val = left-1
+            t.css('left',val)
+        }else{
+            is_right = true
+        }
+
+    }
+    // if (left<300&&left>250) {
+    //     t.css('left',left+1)
+    // };
+},50)
+</script>
+
+
+<script>
+$('#addmacBtn').click(function(){
+$('#addmacModal').modal('show')
+})
+    $(document).on('click','.deletemac',function(){
+      var id = $(this).data('id')
+      $.get('/deletemac?id='+id,function(res){
+        if (res == 'ok') {
+          location.reload()
+        };
+      })
+    })
+$('#confirmAddmacBtn').click(function(){
+var is_val = true
+$('#addmacForm').find('input').each(function(i,v){
+  if (!$(v).val()) {
+    $(v).after('<span class="text-danger">必填字段</span>')
+    is_val = false
+  }else{
+    $(v).next().remove()
+  }
+})
+if (is_val) {
+
+$.get('/adddomain',$('#addmacForm').serialize(),function(data){
+  if (data=='ok') {
+    $('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
+  };
+})
+};
+
+})
+
+</script>
+<script type="text/javascript">
+
+function domainadd(ele){
+if($('#name').val()&&$('#project').val()&&$('#status').val()&&$('#register_time').val()&&$('#expire_date').val()){
+ var id=$(ele).attr("id");
+$.ajax({
+url:"/addmac/",
+data:{name:$('#name').val(),project:$('#project').val(),status:$('#status').val(),register_time:$('#register_time').val(),expire_date:$('#expire_date').val()},
+success:function(data){
+ if (data=='ok') {
+ $('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
+       }
+  }
+});
+}}
+</script>
+
