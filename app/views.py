@@ -328,7 +328,33 @@ def  domain_name(request):
 @login_required
 def   adddomain(request):
     if   request.method == 'GET':
-          pass
+          print     request.GET
+          name = request.GET['name']
+          project = request.GET['project']
+          status = request.GET['status']
+          register_time = request.GET['register_time']
+          expire_date = request.GET['expire_date']
+          remark =  request.GET['remark']
+    all_domain = domain.objects.all()
+    domain_count = all_domain.count()
+    all_domain_list=[]
+    for   domain_name  in all_domain:
+           all_domain_list.append(domain_name.domain_name)
+    if    name  in  all_domain_list:
+          return    HttpResponseRedirect('/domain/')
+    else:
+          domain_add=domain(domain_name=name,project=project,status=status,register_time=register_time,expire_date=expire_date,remark=remark)
+          domain_add.save()
+          return HttpResponse('ok')
+
+@login_required
+def deldomain(request):
+       id=int(request.GET['id'])
+       all_domain = domain.objects.all()
+       domain_count = all_domain.count()
+       del_domain = domain.objects.filter(id=id).delete()
+       return HttpResponseRedirect('/domain/')
+
 @login_required
 def mac(request):
     all_host = HostList.objects.all()
@@ -358,6 +384,7 @@ def check_host(request):
     if request.method == 'GET':
         idc_name = request.GET['idc_name']
         all_host = HostList.objects.filter(idc_name=idc_name)
+        net_mac_count=all_host.count()
         print idc_name
         return render_to_response("mac.html",locals())
 @login_required

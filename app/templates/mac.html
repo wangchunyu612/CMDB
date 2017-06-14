@@ -64,18 +64,18 @@
                                                 <tbody>
                  {%for all_host in all_host %}
             <tr>
-                <td id="bianhao">{{all_host.id}}</td>
-            	<td    id="host">{{all_host.hostname}}</td>
-            	<td id="host_ip">{{all_host.ip}}</td>
-                <td id="host_ip">{{all_host.ip_lan}}</td>
-                <td id="host_ip">{{all_host.fast_server_code}}</td>
-                <td id="host_ip">{{all_host.host_type}}</td>
-                <td id="host_ip">{{all_host.jiekou_status}}</td>
-                <td id="host_ip">{{all_host.os_type}}</td>
-                <td id="host_ip">{{all_host.zicai_code}}</td>
-            	<td id="jigui_bianhao">{{all_host.bianhao}}</td>
-            	<td id="jifang">{{all_host.idc_name}}</td>
-                <td id="server">{{all_host.application}}</td>
+                <td id="bianhao" style="text-align: center">{{all_host.id}}</td>
+            	<td    id="host" style="text-align: center">{{all_host.hostname}}</td>
+            	<td id="host_ip" style="text-align: center">{{all_host.ip}}</td>
+                <td id="host_ip" style="text-align: center">{{all_host.ip_lan}}</td>
+                <td id="host_ip" style="text-align: center">{{all_host.fast_server_code}}</td>
+                <td id="host_ip"style="text-align: center">{{all_host.host_type}}</td>
+                <td id="host_ip"style="text-align: center">{{all_host.jiekou_status}}</td>
+                <td id="host_ip"style="text-align: center">{{all_host.os_type}}</td>
+                <td id="host_ip"style="text-align: center">{{all_host.zicai_code}}</td>
+            	<td id="jigui_bianhao"style="text-align: center">{{all_host.bianhao}}</td>
+            	<td id="jifang"style="text-align: center">{{all_host.idc_name}}</td>
+                <td id="server"style="text-align: center">{{all_host.application}}</td>
             	<td align="center" >
             <span class="label label-primary hover deletemac"><a href="/mac/mac_edit/?id={{ all_host.id }}" style="color:white"  role="button">编辑</a></span>
             <span class=" label label-primary badge-danger"><a href="/mac/mac_delete/?id={{ all_host.id }}" style="color:white"  role="button">删除</a></span>

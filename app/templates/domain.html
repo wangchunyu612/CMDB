@@ -60,22 +60,25 @@
                                                 <tbody>
                  {%for all_domain in all_domain %}
             <tr>
-                <td id="bianhao">{{all_domain.id}}</td>
-            	<td    id="host">{{all_domain.domain_name}}</td>
-            	<td id="host_ip">{{all_domain.project}}</td>
-                <td id="host_ip">{{all_domain.status}}</td>
-                <td id="host_ip">{{all_domain.register_time|date:"Y-m-d H:i:s"}}</td>
-                <td id="host_ip">{{all_domain.expire_date|date:"Y-m-d H:i:s"}}</td>
-                <td id="host_ip">{{all_domain.remark}}</td>
+                <td id="bianhao" style="text-align: center">{{all_domain.id}}</td>
+            	<td    id="host" style="text-align: center" >{{all_domain.domain_name}}</td>
+            	<td id="host_ip" style="text-align: center">{{all_domain.project}}</td>
+                <td id="host_ip"style="text-align: center">{{all_domain.status}}</td>
+                <td id="host_ip"style="text-align: center">{{all_domain.register_time|date:"Y-m-d H:i:s"}}</td>
+                <td id="host_ip"style="text-align: center">{{all_domain.expire_date|date:"Y-m-d H:i:s"}}</td>
+                <td id="host_ip"style="text-align: center">{{all_domain.remark}}</td>
             	<td align="center" >
             <span class="label label-primary hover deletemac"><a href="/mac/mac_edit/?id={{ all_host.id }}" style="color:white"  role="button">编辑</a></span>
-            <span class=" label label-primary badge-danger"><a href="/mac/mac_delete/?id={{ all_host.id }}" style="color:white"  role="button">删除</a></span>
+            <span class=" label label-primary badge-danger">
+                <!--<a href="/domain/deldomain/?id={{ all_domain.id }}" style="color:white"  role="button">删除</a>-->
+                <a style='color:white'  onClick="del_idc('/domain/deldomain/?id={{ all_domain.id }}');">删除</a>
+            </span>
             	</td>
             </tr>
                  {%endfor%}
                                             </tbody>
                                             </table>
-                                         <div style="float: right;">共计{{ domain_count }}台机器</div>
+                                         <div style="float: right;">共计{{ domain_count }}个域名</div>
                                         </div>
                                         <!-- /.table-responsive -->
                                     </div>
@@ -121,14 +124,14 @@
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">注册时间</label>
     <div class="col-sm-10">
-        <input type="datetime-local" class="form-control" value="2014-09-24T13:59:59"/>
+        <input type="datetime-local" class="form-control" value="2014-09-24T13:59:59" id='register_time' />
      <!-- <input type="text" class="form-control" id='register_time'>-->
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">到期时间</label>
     <div class="col-sm-10">
-        <input type="datetime-local" class="form-control" value="2014-09-24T13:59:59"/>
+        <input type="datetime-local" class="form-control" value="2014-09-24T13:59:59" id='expire_date' />
       <!--<input type="text" class="form-control" id='expire_date'>-->
     </div>
   </div>
@@ -162,7 +165,25 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
-
+<!--删除按钮弹窗-->
+<div class="modal fade" id="tipModal3">
+  <div class="modal-dialog">
+    <div class="modal-content message_align">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">提示信息</h4>
+      </div>
+      <div class="modal-body">
+        <p>您确认要删除吗？</p>
+      </div>
+      <div class="modal-footer">
+         <input type="hidden" id="url"/>
+         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+         <a  onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script>
 $('#tipModal').on('hide.bs.modal',function(){
@@ -244,6 +265,13 @@ setInterval(function(){
 
 
 <script>
+    function del_idc(url){
+     $('#url').val(url);
+     $('#tipModal3').modal('show')}
+     function urlSubmit(){
+    var url=$.trim($("#url").val());
+    window.location.href=url;
+}
 $('#addmacBtn').click(function(){
 $('#addmacModal').modal('show')
 })
@@ -280,14 +308,15 @@ $.get('/adddomain',$('#addmacForm').serialize(),function(data){
 <script type="text/javascript">
 
 function domainadd(ele){
-if($('#name').val()&&$('#project').val()&&$('#status').val()&&$('#register_time').val()&&$('#expire_date').val()){
+if($('#name').val()&&$('#project').val()&&$('#status').val()){
  var id=$(ele).attr("id");
 $.ajax({
-url:"/addmac/",
-data:{name:$('#name').val(),project:$('#project').val(),status:$('#status').val(),register_time:$('#register_time').val(),expire_date:$('#expire_date').val()},
+url:"/adddomain/",
+data:{name:$('#name').val(),project:$('#project').val(),status:$('#status').val(),register_time:$('#register_time').val(),expire_date:$('#expire_date').val(),remark:$('#remark').val()},
 success:function(data){
  if (data=='ok') {
  $('#tipModal').find('.modal-body').html('添加成功').end().modal('show')
+
        }
   }
 });

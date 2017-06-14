@@ -49,7 +49,7 @@
                                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                                 <thead>
                                                     <tr>
-            					    <th >编号</th>
+            					    <th  style="text-align:center;">编号</th>
                                                         <th style="text-align:center;" >品牌</th>
                                                         <th style="text-align:center;">型号</th>
                                                         <th style="text-align:center;">类型</th>
@@ -61,12 +61,12 @@
                                                 <tbody>
                  {%for all_net_dev in all_net_dev %}
             <tr>
-                <td id="bianhao">{{all_net_dev.id}}</td>
-            	<td id="brand">{{all_net_dev.brand}}</td>
-            	<td id="model_num">{{all_net_dev.model_num}}</td>
-                <td id="type">{{all_net_dev.type}}</td>
-                <td id="addr">{{all_net_dev.addr}}</td>
-                <td id="idc_name">{{all_net_dev.idc_name}}</td>
+                <td id="bianhao" style="text-align: center">{{all_net_dev.id}}</td>
+            	<td id="brand" style="text-align: center">{{all_net_dev.brand}}</td>
+            	<td id="model_num" style="text-align: center">{{all_net_dev.model_num}}</td>
+                <td id="type" style="text-align: center">{{all_net_dev.type}}</td>
+                <td id="addr" style="text-align: center">{{all_net_dev.addr}}</td>
+                <td id="idc_name" style="text-align: center">{{all_net_dev.idc_name}}</td>
 
                 <td align="center">
             <span class="label label-primary hover deletemac"><a href="/net_dev/net_edit/?id={{ all_net_dev.id }}" style="color:white"  role="button">编辑</a></span>
