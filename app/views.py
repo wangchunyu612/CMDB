@@ -18,8 +18,7 @@ import logging
 from app.page import  pages
 from django.db.models import Q
 import csv
-from   form import  IdcForm
-
+from  new_api import  *
 #db = mysql.connect(user="root", passwd="123456", db="monitor", charset="utf8")
 #db.autocommit(True)
 #c = db.cursor()
@@ -318,7 +317,8 @@ def  net_search(request):
             net_dev_count = all_net_dev.count()
             all_idc = Idc.objects.all()
             return render_to_response('net_dev.html', locals())
-
+    else:
+        return HttpResponseRedirect('/net_dev/')
 
 @login_required
 def  domain_name(request):
@@ -380,10 +380,11 @@ def domain_result(request):
         return HttpResponse('ok')
 @login_required
 def mac(request):
-    all_host = HostList.objects.all()
+    all_host = HostList.objects.all().order_by("ip")
     all_idc = Idc.objects.all()
     net_mac_count = all_host.count()
-    return render_to_response("mac.html",locals())
+    contact_list, p, contacts, page_range, current_page, show_first, show_end = pages(all_host, request)
+    return render_to_response("mac.html",locals(),context_instance=RequestContext(request))
 @login_required
 def addmac(request):
     if request.method == 'GET':
@@ -453,6 +454,7 @@ def macresult(request):
 
 @login_required
 def   mac_search(request):
+    print  request.method
     if request.method =='POST':
             all_idc = Idc.objects.all()
             search_word = request.POST.get('keyword')
@@ -471,8 +473,12 @@ def   mac_search(request):
                                                    Q(os_type=search_word) |
                                                    Q(zicai_code=search_word))
                 net_mac_count = all_host.count()
-                return render_to_response('mac.html', locals())
+                search=1
 
+                contact_list, p, contacts, page_range, current_page, show_first, show_end = pages(all_host, request)
+                return render_to_response('mac.html', locals())
+    else:
+        return HttpResponseRedirect('/mac/')
 @login_required
 def download(request):
     if request.method == 'GET':

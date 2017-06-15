@@ -41,8 +41,6 @@
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
                                         <div class="dataTable_wrapper">
-
-
                                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                                 <thead>
                                                     <tr>
@@ -62,7 +60,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                 {%for all_host in all_host %}
+                 {%for all_host in contacts %}
             <tr>
                 <td id="bianhao" style="text-align: center">{{all_host.id}}</td>
             	<td    id="host" style="text-align: center">{{all_host.hostname}}</td>
@@ -87,7 +85,13 @@
                  {%endfor%}
                                             </tbody>
                                             </table>
-                                         <div style="float: right;">共计{{ net_mac_count }}台机器</div>
+                                            <div>
+                                                {% if search %}
+                                                    {% include 'page_seach.html' %}
+                                                {% else %}
+                                                    {% include 'page.html' %}
+                                                {% endif %}</div><br/>
+                                            <div><div style="float: right;"><h3>共计{{ net_mac_count }}台机器</h3></div></div>
                                         </div>
                                         <!-- /.table-responsive -->
                                     </div>
