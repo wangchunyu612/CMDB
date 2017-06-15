@@ -12,9 +12,9 @@
               </nav>
             </div>
             <div class="row" style='margin-top:20px'>
-            	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>添加机器</button>
+            	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>添加域名</button>
                 <div class="col-sm-3" style="float: right;">
-                 <form id="asset_form" method="post" action="/mac/mac_search/" >
+                <!-- <form id="asset_form" method="post" action="/mac/mac_search/" >
                             <div class="input-group">
                                 <input type="text" class="form-control m-b" id="search_input" name="keyword" placeholder="Search">
                                 <input type="text" style="display: none">
@@ -27,7 +27,7 @@
 {#                                    </button>#}
                                 </div>
                             </div>
-                         </form>
+                         </form>-->
                         </div>
             </div>
 
@@ -68,7 +68,7 @@
                 <td id="host_ip"style="text-align: center">{{all_domain.expire_date|date:"Y-m-d H:i:s"}}</td>
                 <td id="host_ip"style="text-align: center">{{all_domain.remark}}</td>
             	<td align="center" >
-            <span class="label label-primary hover deletemac"><a href="/mac/mac_edit/?id={{ all_host.id }}" style="color:white"  role="button">编辑</a></span>
+            <span class="label label-primary hover deletemac"><a href="/domain/domain_edit/?id={{ all_domain.id  }}" style="color:white"  role="button">编辑</a></span>
             <span class=" label label-primary badge-danger">
                 <!--<a href="/domain/deldomain/?id={{ all_domain.id }}" style="color:white"  role="button">删除</a>-->
                 <a style='color:white'  onClick="del_idc('/domain/deldomain/?id={{ all_domain.id }}');">删除</a>

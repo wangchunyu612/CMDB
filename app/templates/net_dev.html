@@ -70,7 +70,10 @@
 
                 <td align="center">
             <span class="label label-primary hover deletemac"><a href="/net_dev/net_edit/?id={{ all_net_dev.id }}" style="color:white"  role="button">编辑</a></span>
-            <span class=" label label-primary badge-danger"><a href="/net_dev/net_delete/?id={{ all_net_dev.id }}" style="color:white"  role="button">删除</a></span>
+            <span class=" label label-primary badge-danger">
+              <!--  <a href="/net_dev/net_delete/?id={{ all_net_dev.id }}" style="color:white"  role="button">删除</a>-->
+                <a style='color:white'  onClick="del_idc('/net_dev/net_delete/?id={{ all_net_dev.id }}');">删除</a>
+            </span>
             	</td>
             </tr>
                  {%endfor%}
@@ -162,7 +165,25 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
-
+<!--删除按钮弹窗-->
+<div class="modal fade" id="tipModal3">
+  <div class="modal-dialog">
+    <div class="modal-content message_align">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">提示信息</h4>
+      </div>
+      <div class="modal-body">
+        <p>您确认要删除吗？</p>
+      </div>
+      <div class="modal-footer">
+         <input type="hidden" id="url"/>
+         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+         <a  onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script>
 $('#tipModal').on('hide.bs.modal',function(){
@@ -244,6 +265,13 @@ setInterval(function(){
 
 
 <script>
+    function del_idc(url){
+     $('#url').val(url);
+     $('#tipModal3').modal('show')}
+     function urlSubmit(){
+    var url=$.trim($("#url").val());
+    window.location.href=url;
+}
 $('#addmacBtn').click(function(){
 $('#addmacModal').modal('show')
 })

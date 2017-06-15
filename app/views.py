@@ -354,7 +354,30 @@ def deldomain(request):
        domain_count = all_domain.count()
        del_domain = domain.objects.filter(id=id).delete()
        return HttpResponseRedirect('/domain/')
+@login_required
+def domain_edit(request):
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        #all_domain = domain.objects.all()
+        all_domain = domain.objects.filter(id=id)
+        return render_to_response("domain_edit.html",locals())
 
+
+def domain_result(request):
+    if request.method == 'GET':
+            print   request.GET
+            id = int(request.GET['id'])
+            name = request.GET['name']
+            project = request.GET['project']
+            status = request.GET['status']
+            register_time = request.GET['register_time']
+            expire_date = request.GET['expire_date']
+            remark = request.GET['remark']
+    try:
+        domain_update=domain.objects.filter(id=id).update(domain_name=name,project=project,status=status,register_time=register_time,expire_date=expire_date,remark=remark)
+        return HttpResponse('ok')
+    finally:
+        return HttpResponse('ok')
 @login_required
 def mac(request):
     all_host = HostList.objects.all()
@@ -369,13 +392,13 @@ def addmac(request):
         ip_lan = request.GET['ip_lan']
         servicecode = request.GET['servicecode']
         machine_type = request.GET['machine_type']
-        api_status = request.GET['api_status']
+
         os_type = request.GET['os_type']
         zicai_code = request.GET['zicai_code']
         idc_name = request.GET['idc_name']
         service = request.GET['service']
         idc_bh = request.GET['idc_jg']
-        mac_add = HostList(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,jiekou_status=api_status,os_type=os_type,zicai_code=zicai_code)
+        mac_add = HostList(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,os_type=os_type,zicai_code=zicai_code)
         mac_add.save()
         logger.info(str(request.user)+' - '+'addmac'+ ' - '+name+'-'+str(ip)+'-'+idc_name+'-'+service+'-'+idc_bh)
         return HttpResponse('ok')
@@ -413,14 +436,14 @@ def macresult(request):
         ip_lan = request.GET['ip_lan']
         servicecode = request.GET['servicecode']
         machine_type = request.GET['machine_type']
-        api_status = request.GET['api_status']
+        #api_status = request.GET['api_status']
         os_type = request.GET['os_type']
         zicai_code = request.GET['zicai_code']
         idc_name = request.GET['idc_name']
         service = request.GET['service']
         idc_bh = request.GET['idc_jg']
     try:
-        mac_update = HostList.objects.filter(id=id).update(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,jiekou_status=api_status,os_type=os_type,zicai_code=zicai_code)
+        mac_update = HostList.objects.filter(id=id).update(ip=ip,hostname=name,application=service,idc_name=idc_name,bianhao=idc_bh,ip_lan=ip_lan,fast_server_code=servicecode,host_type=machine_type,os_type=os_type,zicai_code=zicai_code)
         print   mac_update
         #mac_update.save()
         logger.info(str(request.user) + ' - '+'editmac'+ ' - hostname:' +  name+'- host_ip:' +  ip+'- idc_name:' + idc_name+'- application:' + service+'- bianhao:' +idc_bh)

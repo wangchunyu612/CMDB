@@ -17,113 +17,72 @@
 
 
 <div class="row" style='margin-top:20px'>
-	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>编辑机器</button>
+	<button class="btn btn-primary" id='addmacBtn' style='margin-left:20px'>编辑域名</button>
 </div>
 <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default" style='margin-top:20px;'>
-<!--                         <div class="panel-heading">
-                           idc信息
-                            <button class='btn btn-default' id='addIdc'>添加idc</button>
-                        </div> -->
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
 
-{%for host in all_host %}
+{%for all_domain in all_domain %}
 <div style="width:50%">
-<form class="form-horizontal"  method="post" action="/macresult/">
-  <div class="form-group">
+<form class="form-horizontal"  method="post" action="/domain_result/">
+<div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">编号</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" readonly="readonly"  id='bianhao' value='{{host.id}}'>
+      <input type="text" class="form-control" readonly="readonly"  id='bianhao' value='{{all_domain.id}}'>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">机器名</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">域名</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='name' value='{{host.hostname}}'>
+      <input type="text" class="form-control" id='name' value='{{all_domain.id}}' >
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">ip地址</label>
+    <label for="inputEmail3" class="col-sm-2 control-label">使用项目</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='ip'     value='{{host.ip}}'>
+      <input type="text" class="form-control" id='project' value='{{all_domain.domain_name}}'>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">内网ip</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='ip_lan' value='{{host.ip_lan}}'>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">服务码</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='servicecode' value='{{host.fast_server_code}}'>
+      <input type="text" class="form-control" id='status'value='{{all_domain.status}}'>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">机器型号</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">注册时间</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='machine_type' value='{{host.host_type}}'>
-    </div>
-  </div>
-  <!--<div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">接口状态</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='api_status' value='{{host.jiekou_status}}'>
-    </div>
-  </div>-->
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">操作系统</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='os_type' value='{{host.os_type}}'>
+        <input type="datetime-local" class="form-control" value={{all_domain.register_time|date:"Y-m-d"}}T{{all_domain.register_time|date:"H:i:s"}} id='register_time' />
+     <!-- <input type="text" class="form-control" id='register_time'>-->
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">资材编号</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">到期时间</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='zicai_code' value='{{host.zicai_code}}'>
+        <input type="datetime-local" class="form-control" value='{{all_domain.expire_date|date:"Y-m-d"}}T{{all_domain.expire_date|date:"H:i:s"}}' id='expire_date' />
+      <!--<input type="text" class="form-control" id='expire_date'>-->
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">机柜</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">备注</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id='idc_jg' value='{{host.bianhao}}'>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">idc</label>
-    <div class="col-sm-10">
-    <select id="idc_name"  class="form-control" value="{{ host.idc_name }}" >
-	                {%for all_idc in all_idc%}
-                        <option>{{all_idc.idc_name}}</option>
-                  {%endfor%}
-    </select>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">运行服务</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id='service' value='{{host.application}}'>
+      <input type="text" class="form-control" id='remark' value='{{all_domain.remark}}'>
     </div>
   </div>
 </form>
 {%endfor%}
       </div>
       <div class="modal-footer" style="width:50%">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><a href="/mac/" >取消</a></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><a href="/domain/" >取消</a></button>
         <button type="button" class="btn btn-primary"  onclick="macresult(this);" >保存</button>
    </div>
   </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-                        </div>
-                        <!-- /.panel-body -->
+</div><!-- /.panel-body -->
 </div>
 
 <div class="modal fade" id='tipModal'>
@@ -136,7 +95,7 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  ><a href="/mac/">确认</a></button>
+        <button type="button" class="btn btn-primary"  ><a href="/domain/">确认</a></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -257,11 +216,11 @@
 <script type="text/javascript">
 
 function macresult(ele){
-   if($('#bianhao').val()&&$('#name').val()&&$('#ip').val()&&$('#idc_jg').val()&&$('#idc_name').val()&&$('#service').val()){
+   if($('#name').val()&&$('#project').val()&&$('#status').val()){
      var id=$(ele).attr("id");
   $.ajax({
-    url:"/macresult/",
-    data:{id:$('#bianhao').val(),name:$('#name').val(),ip:$('#ip').val(),idc_jg:$('#idc_jg').val(),idc_name:$('#idc_name').val(),service:$('#service').val(),ip_lan:$('#ip_lan').val(),servicecode:$('#servicecode').val(),machine_type:$('#machine_type').val(),os_type:$('#os_type').val(),api_status:$('#api_status').val(),zicai_code:$('#zicai_code').val()},
+    url:"/domain_result/",
+    data:{id:$('#bianhao').val(),name:$('#name').val(),project:$('#project').val(),status:$('#status').val(),register_time:$('#register_time').val(),expire_date:$('#expire_date').val(),remark:$('#remark').val()},
     success:function(data){
      if (data=='ok') {
      $('#tipModal').find('.modal-body').html('修改成功').end().modal('show')
