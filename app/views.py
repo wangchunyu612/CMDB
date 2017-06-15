@@ -248,6 +248,7 @@ def netdev(request):
     all_idc = Idc.objects.all()
     net_dev_count = net_dev.objects.all().count()
     print    net_dev_count
+    contact_list, p, contacts, page_range, current_page, show_first, show_end = pages(all_net_dev, request)
     return    render_to_response('net_dev.html',locals())
 @login_required
 def net_add_dev(request):
@@ -316,6 +317,8 @@ def  net_search(request):
                                          Q(idc_name=search_word))
             net_dev_count = all_net_dev.count()
             all_idc = Idc.objects.all()
+            search=1
+            contact_list, p, contacts, page_range, current_page, show_first, show_end = pages(all_net_dev, request)
             return render_to_response('net_dev.html', locals())
     else:
         return HttpResponseRedirect('/net_dev/')

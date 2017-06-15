@@ -59,7 +59,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                 {%for all_net_dev in all_net_dev %}
+                 {%for all_net_dev in contacts %}
             <tr>
                 <td id="bianhao" style="text-align: center">{{all_net_dev.id}}</td>
             	<td id="brand" style="text-align: center">{{all_net_dev.brand}}</td>
@@ -79,7 +79,14 @@
                  {%endfor%}
                                             </tbody>
                                             </table>
-                                            <div style="float: right;">共计{{ net_dev_count }}个网络设备</div>
+                                            <div>
+                                                {% if search %}
+                                                    {% include 'page_seach.html' %}
+                                                {% else %}
+                                                    {% include 'page.html' %}
+                                                {% endif %}</div><br/>
+                                            <div>
+                                            <div style="float: right;"><h3>共计{{ net_dev_count }}个网络设备</h3></div>
                                         </div>
                                         <!-- /.table-responsive -->
                                     </div>
