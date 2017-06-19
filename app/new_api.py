@@ -11,7 +11,7 @@ def page_list_return(total, current=1):
 def pages(posts, r):
     """分页公用函数"""
     contact_list = posts
-    p = paginator = Paginator(contact_list, 2)
+    p = paginator = Paginator(contact_list, 5)
     ## 设置在每页显示的数量，这里为50,得到一个对象
     try:
         current_page = int(r.GET.get('page', '1'))
