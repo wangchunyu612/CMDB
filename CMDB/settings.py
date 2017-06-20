@@ -133,11 +133,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'app',
-    'bootstrap3',
-    'django_forms_bootstrap',
-'bootstrap_toolkit',
-'crispy_forms',
-    #'south',
+    'south',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

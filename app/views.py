@@ -492,15 +492,15 @@ def download(request):
 def download_result(request):
     if request.method =='POST':
         hostname = request.POST.get('hostname')
-        if request.POST.get('filename') and request.POST.get('path'):
-            filepath = request.POST.get('path') + request.POST.get('filename')
-        else:
-            filepath = request.POST.get('dir')
+        # if request.POST.get('filename') and request.POST.get('path'):
+        #    filepath = request.POST.get('path') + request.POST.get('filename')
+        # else:
+        filepath = request.POST.get('dir')
         print hostname,filepath
-#        cmd='salt %s cp.push %s' %(hostname,filepath)
-        #ret=client.cmd(hostname,'cp.push',[filepath])
+        #cmd='salt %s cp.push %s' %(hostname,filepath)
+        ret=client.cmd(hostname,'cp.push',[filepath])
         print ret
-#        ret=os.popen(cmd).readlines()
+       # ret=os.popen(cmd).readlines()
         if ret[hostname]:
             salt_minior_dir='/var/cache/salt/master/minions/'+str(hostname)+'/files'
             fullpath=salt_minior_dir+filepath
